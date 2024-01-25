@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input id="inputNum" type="number" name="number" placeholder="Input Angka">
+  <br><br>
+  <button onclick="loadData('Triangle')">Generate Segitiga</button> 
+  <button onclick="loadData('Odd')">Generate Bilangan Ganjil</button> 
+  <button onclick="loadData('Prime')">Generate Bilangan Prima</button>
+  <h1>Result:</h1>
+  <p id="result"></p>
+</body>
+<script>
+  function loadData(str) {
+    const xhttp = new XMLHttpRequest()
+    const input = document.getElementById("inputNum").value;
+    xhttp.onload = function() {
+      if(this.status === 200) {
+        document.getElementById("result").innerHTML = JSON.parse(this.response).data;
+      } else {
+        document.getElementById("result").innerHTML = JSON.parse(this.response).message;
+      }
+    }
+    if(str === "Prime") {
+      xhttp.open("GET", `http://localhost:3000/api/v1/gen-prime?input=${input}`);
+    } else if(str === "Triangle") {
+      xhttp.open("GET", `http://localhost:3000/api/v1/gen-triangle?input=${input}`);
+    } else if(str === "Odd") {
+      xhttp.open("GET", `http://localhost:3000/api/v1/gen-odd?input=${input}`);
+    }
+    xhttp.send()
+  }
+</script>
+</html>
